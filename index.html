@@ -403,7 +403,9 @@ function deptFlags(d){
   const f=["🌐","👁","🔒"].filter(x=>all.includes(x));
   return f.length?`<span class="dflags" title="${f.map(x=>({"🌐":"ищет в интернете","👁":"видит картинки и скриншоты","🔒":"видит только итоговый документ"}[x])).join(", ")}">${f.join(" ")}</span>`:"";
 }
-let closed=new Set((store.get("closed")||"").split(",").filter(Boolean));
+// Каждая загрузка начинается с раскрытых отделов, независимо от ранее
+// сохранённого closed. Сворачивание кнопками работает до следующей загрузки.
+let closed=new Set();
 $("#depts").innerHTML=DEPTS.map(d=>`
   <div class="dept${closed.has(d.id)?" closed":""}" id="d-${d.id}" style="--c:var(${d.c})">
     <button class="dept-h" type="button" aria-expanded="${!closed.has(d.id)}" data-d="${d.id}">
