@@ -275,9 +275,9 @@ footer{font-size:12.5px;color:var(--muted);display:flex;flex-wrap:wrap;gap:6px 1
       <div class="lvl">
         <div class="lvl-cap">Шаг 2 · Бэклог и первый ключ</div>
         <div class="pair">
-          <div class="n big" data-k="cmo" style="--c:var(--c-lead)"><b>Руководитель отдела</b><span class="who">Claude Opus 5.5</span><span class="do">Раскладывает задачу в бэклог и назначает сотрудников</span></div>
+          <div class="n big" data-k="cmo" style="--c:var(--c-lead)"><b>Руководитель отдела</b><span class="who">Claude Fable 5.1</span><span class="do">Раскладывает задачу в бэклог и назначает сотрудников</span></div>
           <div class="duo"><span class="a">бэклог на утверждение →</span><span class="line">⇄</span><span class="b">← «утверждаю» или замечания</span></div>
-          <div class="n big" data-k="deputy" style="--c:var(--deputy)"><b>Заместитель руководителя · ключ 1</b><span class="who">GPT-6.1 Sol High</span><span class="do">Утверждает бэклог, сверяя его с запросом директора</span></div>
+          <div class="n big" data-k="deputy" style="--c:var(--deputy)"><b>Заместитель руководителя · ключ 1</b><span class="who">GPT-6 Astra</span><span class="do">Утверждает бэклог, сверяя его с запросом директора</span></div>
         </div>
         <p class="loop">↺ До 2 раундов. Не договорились — таблица «позиция Claude / позиция GPT» уходит Виталию Морозову, решает он</p>
       </div>
@@ -317,9 +317,9 @@ footer{font-size:12.5px;color:var(--muted);display:flex;flex-wrap:wrap;gap:6px 1
       <div class="lvl">
         <div class="lvl-cap">Шаг 8 · Приёмка и второй ключ</div>
         <div class="pair">
-          <div class="n big" data-k="cmo" style="--c:var(--c-lead)"><b>Руководитель отдела</b><span class="who">Claude Opus 5.5</span><span class="do">Принимает работу по критериям бэклога, цифры проверяет кодом</span></div>
+          <div class="n big" data-k="cmo" style="--c:var(--c-lead)"><b>Руководитель отдела</b><span class="who">Claude Fable 5.1</span><span class="do">Принимает работу по критериям бэклога, цифры проверяет кодом</span></div>
           <div class="duo"><span class="a">итог на подпись →</span><span class="line">⇄</span><span class="b">← «принято» или замечания</span></div>
-          <div class="n big" data-k="deputy" style="--c:var(--deputy)"><b>Заместитель руководителя · ключ 2</b><span class="who">GPT-6.1 Sol High</span><span class="do">Подписывает приёмку: без подписи задача не закрыта</span></div>
+          <div class="n big" data-k="deputy" style="--c:var(--deputy)"><b>Заместитель руководителя · ключ 2</b><span class="who">GPT-6 Astra</span><span class="do">Подписывает приёмку: без подписи задача не закрыта</span></div>
         </div>
         <p class="loop">↺ «Не принято» → доработка у сотрудников → раунд 2. Дальше — решение Виталия Морозова</p>
       </div>
@@ -344,7 +344,7 @@ footer{font-size:12.5px;color:var(--muted);display:flex;flex-wrap:wrap;gap:6px 1
 
 <script>
 /* ───── данные департамента (roles.toml, 07.10.2026) ───── */
-const MN = {claude:"Claude Opus 5.5",gpt:"GPT-6.1 Sol High",gemini:"Gemini 3.8 Flash","gemini-pro":"Gemini 3.1 Pro",kimi:"Kimi K3","kimi-long":"Kimi K3-256k",
+const MN = {claude:"Claude Fable 5.1",gpt:"GPT-6 Astra",gemini:"Gemini 3.8 Flash","gemini-pro":"Gemini 4 Argon",kimi:"Kimi K3","kimi-long":"Kimi K3-256k",
   minimax:"MiniMax-M3","minimax-go":"MiniMax-M3 (OpenCode)","deepseek-pro":"DeepSeek V4 Pro",deepseek:"DeepSeek V4.1 Flash",muse:"Muse Spark 1.3",
   "qwen-flash":"Qwen3.8 Flash",mimo:"MiMo V2.6 Pro","mimo-flash":"MiMo V2.6 Flash","gemini-img":"веб-Gemini","chatgpt-img":"веб-ChatGPT","minimax-img":"MiniMax Image"};
 const DEPTS = [
