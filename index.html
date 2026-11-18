@@ -357,9 +357,11 @@ footer{font-size:12.5px;color:var(--muted);display:flex;flex-wrap:wrap;gap:6px 1
 
 <script>
 /* ───── данные департамента, названия моделей сверены 18.11.2026 ───── */
+// MN хранит подписи моделей. Ключи связывают название, назначения в DEPTS и разработчика в MV.
 const MN = {claude:"Claude Fable 5.2",gpt:"GPT-6.2 Astra",gemini:"Gemini 4 Hydrogen","gemini-pro":"Gemini 4 Carbon",kimi:"Kimi K3.1 Pro",
   minimax:"MiniMax-M3.1-Flash","minimax-go":"MiniMax-M3.1-Flash (OpenCode)","deepseek-pro":"DeepSeek-V4-Pro-0813",deepseek:"DeepSeek-V4.1-Flash-1017",muse:"Muse Ember",
   "qwen-max":"Qwen4-Max",mimo:"MiMo V2.6 Pro","mimo-flash":"MiMo V2.6 Flash","gemini-img":"Nano Banana 2.1 (Gemini)","chatgpt-img":"ChatGPT Images 2.6","minimax-img":"MiniMax-H3-Image",glm:"GLM-5.3"};
+// Первый ключ в ch задаёт модель на схеме и в таблице. Остальные ключи — запасные модели по порядку.
 const DEPTS = [
   {id:"lead",em:"🟣",n:"Руководство",c:"--c-lead",lead:true,roles:[
     {k:"cmo",p:"Руководитель отдела маркетинга",ch:["claude"],f:"Оркестратор: раскладывает запрос в бэклог, назначает сотрудников, принимает работу, отдаёт итог Виталию Морозову. Сам только собирает данные (Директ, Метрика, сайт) и применяет принятое после вашего «да»"},
@@ -495,6 +497,7 @@ $("#w5").innerHTML = grp("control","Контроль качества",node("cri
 
 
 /* ───── модели департамента: рейтинг по числу должностей ───── */
+// MV связывает ключ модели с разработчиком, а VC задаёт цвет его карточки в рейтинге.
 const MV = {claude:"Anthropic",gpt:"OpenAI",gemini:"Google","gemini-pro":"Google",kimi:"Moonshot AI",
   minimax:"MiniMax","deepseek-pro":"DeepSeek",deepseek:"DeepSeek",muse:"Meta","qwen-max":"Alibaba",mimo:"Xiaomi","mimo-flash":"Xiaomi",
   "gemini-img":"Google","chatgpt-img":"OpenAI","minimax-img":"MiniMax",glm:"Z.ai"};
