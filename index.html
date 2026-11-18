@@ -359,7 +359,7 @@ footer{font-size:12.5px;color:var(--muted);display:flex;flex-wrap:wrap;gap:6px 1
 /* ───── данные департамента, названия моделей сверены 18.11.2026 ───── */
 const MN = {claude:"Claude Fable 5.2",gpt:"GPT-6.2 Astra",gemini:"Gemini 4 Hydrogen","gemini-pro":"Gemini 4 Carbon",kimi:"Kimi K3.1 Pro",
   minimax:"MiniMax-M3.1-Flash","minimax-go":"MiniMax-M3.1-Flash (OpenCode)","deepseek-pro":"DeepSeek-V4-Pro-0813",deepseek:"DeepSeek-V4.1-Flash-1017",muse:"Muse Ember",
-  "qwen-max":"Qwen4-Max",mimo:"MiMo V2.6 Pro","mimo-flash":"MiMo V2.6 Flash","gemini-img":"Nano Banana 2.1 (Gemini)","chatgpt-img":"ChatGPT Images 2.6","minimax-img":"MiniMax-H3-Image"};
+  "qwen-max":"Qwen4-Max",mimo:"MiMo V2.6 Pro","mimo-flash":"MiMo V2.6 Flash","gemini-img":"Nano Banana 2.1 (Gemini)","chatgpt-img":"ChatGPT Images 2.6","minimax-img":"MiniMax-H3-Image",glm:"GLM-5.3"};
 const DEPTS = [
   {id:"lead",em:"🟣",n:"Руководство",c:"--c-lead",lead:true,roles:[
     {k:"cmo",p:"Руководитель отдела маркетинга",ch:["claude"],f:"Оркестратор: раскладывает запрос в бэклог, назначает сотрудников, принимает работу, отдаёт итог Виталию Морозову. Сам только собирает данные (Директ, Метрика, сайт) и применяет принятое после вашего «да»"},
@@ -368,7 +368,7 @@ const DEPTS = [
     {k:"researcher",p:"Специалист по маркетинговым исследованиям",fl:"🌐",ch:["gemini","muse","deepseek"],f:"Рынок, ЦА, боли, спрос — разведка и сбор фактуры"},
     {k:"competitor",p:"Маркетолог по конкурентному анализу",fl:"🌐",ch:["gemini-pro","gemini","kimi"],f:"Офферы, цены, позиционирование, реклама и сайты конкурентов"},
     {k:"seo_geo",p:"SEO-специалист",fl:"🌐",ch:["gemini","kimi","muse"],f:"SEO в Яндексе, семантика, структура, видимость в ИИ-поиске (GEO)"},
-    {k:"long_context",p:"Бизнес-аналитик (документы и ТЗ)",ch:["kimi","deepseek-pro","minimax"],f:"Большие ТЗ, выгрузки, сопоставление документов (материал больше ~20 тыс. символов)"}]},
+    {k:"long_context",p:"Бизнес-аналитик (документы и ТЗ)",ch:["glm","deepseek-pro","minimax"],f:"Большие ТЗ, выгрузки, сопоставление документов (материал больше ~20 тыс. символов)"}]},
   {id:"legal",em:"⚖️",n:"Юридическая группа",c:"--c-legal",roles:[
     {k:"legal_research",p:"Юрист-аналитик по рекламному праву",fl:"🌐",ch:["gemini-pro","gemini","kimi"],f:"Актуальные нормы и первоисточники: 38-ФЗ, КоАП, 152-ФЗ, правила площадок"},
     {k:"compliance",p:"Юрист по рекламе",ch:["gemini-pro","muse","deepseek-pro"],pv:"mimo",f:"Сопоставляет найденные нормы с конкретным рекламным материалом"}]},
@@ -376,11 +376,11 @@ const DEPTS = [
     {k:"strategist",p:"Маркетолог-стратег",ch:["gemini-pro","muse","deepseek-pro"],pv:"mimo",f:"Маркетинговая стратегия; в споре (debate) альтернативу пишет DeepSeek-V4.1-Flash-1017"},
     {k:"growth",p:"Growth-маркетолог",ch:["gemini-pro","muse","deepseek"],pv:"mimo",f:"Превращает выводы в эксперименты: гипотеза → метрика → критерий победы"},
     {k:"cro",p:"CRO-специалист (конверсия сайта)",fl:"👁",ch:["kimi","deepseek-pro","minimax"],f:"Почему сайт не конвертирует: трафик → обещание → первый экран → доказательства → трение → CTA"},
-    {k:"analyst",p:"Маркетолог-аналитик",ch:["gemini-pro","muse","deepseek-pro"],pv:"mimo",f:"Цифры, выгрузки, причины просадок; сводит ответы фокус-группы"}]},
+    {k:"analyst",p:"Маркетолог-аналитик",ch:["glm","muse","deepseek-pro"],pv:"mimo",f:"Цифры, выгрузки, причины просадок; сводит ответы фокус-группы"}]},
   {id:"ads",em:"📣",n:"Реклама и контент",c:"--c-ads",roles:[
     {k:"performance",p:"Специалист по контекстной и таргетированной рекламе",ch:["muse","deepseek-pro","kimi"],pv:"mimo",f:"Яндекс Директ и VK Реклама: метрики, семантика, минус-слова, план правок кампаний"},
     {k:"copywriter",p:"Копирайтер",ch:["minimax","minimax-go","qwen-max"],f:"Заголовки, офферы, объявления — много вариантов разными подходами"},
-    {k:"landing_writer",p:"Копирайтер лендингов",ch:["minimax","minimax-go","qwen-max"],f:"Первый экран, офферы, CTA и формы по гипотезам CRO-специалиста"},
+    {k:"landing_writer",p:"Копирайтер лендингов",ch:["glm","minimax-go","qwen-max"],f:"Первый экран, офферы, CTA и формы по гипотезам CRO-специалиста"},
     {k:"lifecycle",p:"CRM-маркетолог",ch:["minimax","qwen-max","deepseek"],f:"Цепочки писем и сообщений: прогрев, дожим, реактивация"},
     {k:"editor",p:"Литературный редактор",ch:["qwen-max","minimax","muse"],f:"Тон бренда, канцелярит, стоп-слова, типографика, лимиты символов"}]},
   {id:"design",em:"🎨",n:"Дизайн и веб",c:"--c-design",roles:[
@@ -497,9 +497,9 @@ $("#w5").innerHTML = grp("control","Контроль качества",node("cri
 /* ───── модели департамента: рейтинг по числу должностей ───── */
 const MV = {claude:"Anthropic",gpt:"OpenAI",gemini:"Google","gemini-pro":"Google",kimi:"Moonshot AI",
   minimax:"MiniMax","deepseek-pro":"DeepSeek",deepseek:"DeepSeek",muse:"Meta","qwen-max":"Alibaba",mimo:"Xiaomi","mimo-flash":"Xiaomi",
-  "gemini-img":"Google","chatgpt-img":"OpenAI","minimax-img":"MiniMax"};
+  "gemini-img":"Google","chatgpt-img":"OpenAI","minimax-img":"MiniMax",glm:"Z.ai"};
 const VC = {Anthropic:"--c-lead",OpenAI:"--deputy",Google:"--c-research","Moonshot AI":"--c-strategy",MiniMax:"--c-ads",DeepSeek:"--c-legal",
-  Meta:"--c-focus",Alibaba:"--c-design",Xiaomi:"--c-control"};
+  Meta:"--c-focus",Alibaba:"--c-design",Xiaomi:"--c-control","Z.ai":"--c-fact"};
 (function(){
   const cnt={};
   DEPTS.forEach(d=>d.roles.forEach(r=>{
