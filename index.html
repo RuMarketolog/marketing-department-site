@@ -27,7 +27,8 @@
   --on-v:#FFFFFF;
   /* --cta-*: карточка CTA «Экономика ИИ-департамента» (см. стили .cta) */
   --cta-bg:#FFF7F1; --cta-ink:#15202B; --cta-muted:#5B6976; --cta-line:rgba(21,32,43,.10);
-  --cta-acc:#E8590C; --cta-acc-ink:#C2470A; --cta-panel:#FFFFFF; --cta-panel-shadow:rgba(21,32,43,.06);
+  --cta-g1:#FFF4EC; --cta-g2:#FFDFC9; --cta-g3:#FFEEE2; --cta-sheen:rgba(255,255,255,.9);
+  --cta-acc:#E8590C; --cta-acc-ink:#B0400A; --cta-panel:#FFFFFF; --cta-panel-shadow:rgba(21,32,43,.06);
   --cta-track:#EDF1F4; --cta-bar:#B7C3CD; --cta-btn:#15202B; --cta-btn-ink:#FFFFFF; --cta-btn-arr:#FF8A4C; --cta-shadow:rgba(232,89,12,.12);
   --f-display:"Unbounded","Golos Text",system-ui,sans-serif;
   --f-body:"Golos Text",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
@@ -40,6 +41,7 @@
   --c-lead:#FF8A4C; --c-research:#6E9BFF; --c-legal:#A98BFF; --c-strategy:#3CC4CC; --c-ads:#FF6F9F;
   --c-design:#F5B13D; --c-focus:#B5C64A; --c-fact:#4FC3DC; --nav-on:#6E9BFF; --c-control:#FF7A6B; --on-v:#0E141A;
   --cta-bg:#1E2833; --cta-ink:#F4F7FA; --cta-muted:#A7B4C0; --cta-line:rgba(255,255,255,.10);
+  --cta-g1:#1E2833; --cta-g2:#3A2A22; --cta-g3:#262029; --cta-sheen:rgba(255,255,255,.07);
   --cta-acc:#FF8A4C; --cta-acc-ink:#FF8A4C; --cta-panel:rgba(255,255,255,.04); --cta-panel-shadow:transparent;
   --cta-track:rgba(255,255,255,.08); --cta-bar:rgba(255,255,255,.34); --cta-btn:#FF8A4C; --cta-btn-ink:#15202B; --cta-btn-arr:#15202B; --cta-shadow:rgba(0,0,0,.30); color-scheme:dark;
 }}
@@ -49,6 +51,7 @@
   --c-lead:#FF8A4C; --c-research:#6E9BFF; --c-legal:#A98BFF; --c-strategy:#3CC4CC; --c-ads:#FF6F9F;
   --c-design:#F5B13D; --c-focus:#B5C64A; --c-fact:#4FC3DC; --nav-on:#6E9BFF; --c-control:#FF7A6B; --on-v:#0E141A;
   --cta-bg:#1E2833; --cta-ink:#F4F7FA; --cta-muted:#A7B4C0; --cta-line:rgba(255,255,255,.10);
+  --cta-g1:#1E2833; --cta-g2:#3A2A22; --cta-g3:#262029; --cta-sheen:rgba(255,255,255,.07);
   --cta-acc:#FF8A4C; --cta-acc-ink:#FF8A4C; --cta-panel:rgba(255,255,255,.04); --cta-panel-shadow:transparent;
   --cta-track:rgba(255,255,255,.08); --cta-bar:rgba(255,255,255,.34); --cta-btn:#FF8A4C; --cta-btn-ink:#15202B; --cta-btn-arr:#15202B; --cta-shadow:rgba(0,0,0,.30); color-scheme:dark;
 }
@@ -171,11 +174,11 @@ tr.hide{display:none}
 .n .who{font-family:var(--f-mono);font-size:11px;color:var(--muted)}
 .n .do{font-size:12.5px;color:var(--muted);line-height:1.4}
 /* CTA «Экономика ИИ-департамента» перед схемой (21.11.2026: без перечёркиваний, светлая).
-   Карточка: слева тезис «в 33 раза дешевле» и кнопка к схеме, справа сравнение полосами.
-   ФОТ людей — полная серая полоса, затраты на ИИ — 3 % (30 000 / 1 000 000) с оранжевым
+   Карточка: слева тезис «в 50 раз дешевле» и кнопка к схеме, справа сравнение полосами.
+   ФОТ людей — полная серая полоса, затраты на ИИ — 2 % (50 000 / 2 500 000) с оранжевым
    свечением: разницу показывает длина, а не зачёркивание.
-   Цвета — токены --cta-* в :root и тёмных блоках. Светлая тема: тёплый светлый фон
-   с персиковым и светло-фиолетовым свечением, белая панель, графитовая кнопка с белым текстом.
+   Цвета — токены --cta-* в :root и тёмных блоках. Светлая тема: один светло-оранжевый
+   градиент с анимацией перелива (ctaFlow), белая панель, графитовая кнопка с белым текстом.
    Тёмная тема: приподнятая тёмная поверхность и оранжевая кнопка с тёмным текстом.
    Мелкий оранжевый текст (надпись сверху) берёт --cta-acc-ink — в светлой теме он
    темнее акцента, чтобы читался (контраст ≈ 5).
@@ -184,9 +187,15 @@ tr.hide{display:none}
 .cta{position:relative;overflow:hidden;display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);
   grid-template-areas:"main cmp" "btn cmp";column-gap:clamp(24px,5vw,64px);row-gap:22px;align-items:center;
   padding:clamp(22px,4vw,44px);border-radius:24px;color:var(--cta-ink);border:1px solid var(--cta-line);
-  background:radial-gradient(110% 110% at 100% 0%,rgba(255,138,76,.26),transparent 55%),
-             radial-gradient(100% 120% at 0% 100%,rgba(167,139,250,.34),transparent 62%),var(--cta-bg);
+  background-color:var(--cta-bg);
+  background-image:linear-gradient(120deg,var(--cta-g1) 0%,var(--cta-g2) 25%,var(--cta-g3) 50%,var(--cta-g2) 75%,var(--cta-g1) 100%);
+  background-size:300% 300%;animation:ctaFlow 9s ease-in-out infinite;
   box-shadow:0 18px 44px var(--cta-shadow)}
+/* Блик: косая полоса света проходит по карточке под содержимым */
+.cta::before{content:"";position:absolute;top:-20%;bottom:-20%;left:0;width:32%;pointer-events:none;
+  background:linear-gradient(90deg,transparent,var(--cta-sheen),transparent);
+  transform:translateX(-150%) skewX(-18deg);animation:ctaShine 6.5s ease-in-out infinite}
+.cta>*{position:relative;z-index:1}
 .cta-main{grid-area:main;display:grid;gap:12px;align-self:end}
 .cta-k{font-size:12px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:var(--cta-acc-ink)}
 .cta-h{margin:0;font-family:var(--f-display);font-weight:700;font-size:clamp(25px,3.5vw,40px);line-height:1.08;text-wrap:balance}
@@ -212,7 +221,11 @@ tr.hide{display:none}
 .cmp.ai .cmp-bar i{min-width:14px;background:linear-gradient(90deg,#FFC39B,var(--cta-acc));box-shadow:0 0 16px rgba(255,138,76,.85);animation-delay:.25s}
 .cmp-note{font-size:12.5px;color:var(--cta-muted);border-top:1px solid var(--cta-line);padding-top:14px}
 @keyframes cmpIn{from{transform:scaleX(0)}to{transform:scaleX(1)}}
-@media (prefers-reduced-motion:reduce){.cmp-bar i{animation:none}}
+/* Перелив фона CTA: градиент 300 % ездит слева направо и обратно */
+@keyframes ctaFlow{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+/* Блик: 0–45 % цикла проходит карточку, остаток — пауза за правым краем */
+@keyframes ctaShine{0%{transform:translateX(-150%) skewX(-18deg)}45%,100%{transform:translateX(330%) skewX(-18deg)}}
+@media (prefers-reduced-motion:reduce){.cmp-bar i,.cta{animation:none} .cta::before{display:none}}
 @media (max-width:760px){.cta{grid-template-columns:1fr;grid-template-areas:"main" "cmp" "btn"} .cta-main{align-self:auto} .cta-btn{justify-self:stretch}}
 /* Плашка ИИ-модели в карточке схемы.
    --v — цвет компании-разработчика (MV → VC в скрипте), тот же, что у аватара
@@ -317,22 +330,22 @@ footer{font-size:12.5px;color:var(--muted);display:flex;flex-wrap:wrap;gap:6px 1
   </header>
 
   <!-- CTA «Экономика ИИ-департамента» перед схемой. Цифры дал владелец 20.11.2026:
-       ФОТ людей «более 1 млн ₽», ИИ «до 30 000 ₽» в месяц; 1 000 000 / 30 000 ≈ 33,
-       30 000 / 1 000 000 = 3 % — ширина полосы ИИ. Кнопка ведёт к схеме #flow. -->
+       ФОТ людей «от 2 500 000 ₽», ИИ «до 50 000 ₽» в месяц (обновлено 21.11.2026); 2 500 000 / 50 000 = 50,
+       50 000 / 2 500 000 = 2 % — ширина полосы ИИ. Кнопка ведёт к схеме #flow. -->
   <aside class="cta" aria-label="Экономика ИИ-департамента">
     <div class="cta-main">
       <span class="cta-k">Экономика ИИ-департамента</span>
-      <p class="cta-h">Та же работа — <em>в&nbsp;33&nbsp;раза</em> дешевле</p>
+      <p class="cta-h">Та же работа — <em>в&nbsp;50&nbsp;раз</em> дешевле</p>
       <p class="cta-s">Как 25 ИИ-сотрудников передают задачу друг другу от постановки до результата — на схеме ниже.</p>
     </div>
     <div class="cta-cmp">
       <div class="cmp">
-        <div class="cmp-top"><span>Штат из 25 человек · ФОТ</span><b>от 1&nbsp;000&nbsp;000&nbsp;₽</b></div>
+        <div class="cmp-top"><span>Штат из 25 человек · ФОТ</span><b>от 2&nbsp;500&nbsp;000&nbsp;₽</b></div>
         <div class="cmp-bar" aria-hidden="true"><i style="width:100%"></i></div>
       </div>
       <div class="cmp ai">
-        <div class="cmp-top"><span>25 ИИ-сотрудников · модели</span><b>до 30&nbsp;000&nbsp;₽</b></div>
-        <div class="cmp-bar" aria-hidden="true"><i style="width:3%"></i></div>
+        <div class="cmp-top"><span>25 ИИ-сотрудников · модели</span><b>до 50&nbsp;000&nbsp;₽</b></div>
+        <div class="cmp-bar" aria-hidden="true"><i style="width:2%"></i></div>
       </div>
       <span class="cmp-note">Суммы — в месяц</span>
     </div>
