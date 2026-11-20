@@ -22,6 +22,9 @@
   --c-lead:#E8590C; --c-research:#2B66D9; --c-legal:#7A4BD6; --c-strategy:#0B8790; --c-ads:#CC2F68;
   --c-design:#B8720A; --c-focus:#6A7A10; --c-fact:#0E7490; --c-control:#C9372C;
   --nav-on:#2B66D9;
+  /* --on-v: цвет буквы в кружке плашки модели поверх цвета компании.
+     В светлой теме белый, в тёмной — почти чёрный: цвета там светлее. */
+  --on-v:#FFFFFF;
   --f-display:"Unbounded","Golos Text",system-ui,sans-serif;
   --f-body:"Golos Text",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
   --f-mono:"JetBrains Mono",ui-monospace,"Cascadia Mono",Consolas,monospace;
@@ -31,13 +34,13 @@
   --bg:#0E141A; --surface:#151D25; --surface-2:#1C2630; --ink:#E6EDF3; --muted:#93A3B1; --line:#2A3743;
   --accent:#FF8A4C; --deputy:#3DCB95; --owner:#E6EDF3; --risk:#FF7A6B; --warn:#F2B451;
   --c-lead:#FF8A4C; --c-research:#6E9BFF; --c-legal:#A98BFF; --c-strategy:#3CC4CC; --c-ads:#FF6F9F;
-  --c-design:#F5B13D; --c-focus:#B5C64A; --c-fact:#4FC3DC; --nav-on:#6E9BFF; --c-control:#FF7A6B; color-scheme:dark;
+  --c-design:#F5B13D; --c-focus:#B5C64A; --c-fact:#4FC3DC; --nav-on:#6E9BFF; --c-control:#FF7A6B; --on-v:#0E141A; color-scheme:dark;
 }}
 :root[data-theme="dark"]{
   --bg:#0E141A; --surface:#151D25; --surface-2:#1C2630; --ink:#E6EDF3; --muted:#93A3B1; --line:#2A3743;
   --accent:#FF8A4C; --deputy:#3DCB95; --owner:#E6EDF3; --risk:#FF7A6B; --warn:#F2B451;
   --c-lead:#FF8A4C; --c-research:#6E9BFF; --c-legal:#A98BFF; --c-strategy:#3CC4CC; --c-ads:#FF6F9F;
-  --c-design:#F5B13D; --c-focus:#B5C64A; --c-fact:#4FC3DC; --nav-on:#6E9BFF; --c-control:#FF7A6B; color-scheme:dark;
+  --c-design:#F5B13D; --c-focus:#B5C64A; --c-fact:#4FC3DC; --nav-on:#6E9BFF; --c-control:#FF7A6B; --on-v:#0E141A; color-scheme:dark;
 }
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
@@ -157,6 +160,23 @@ tr.hide{display:none}
 .n b{font-size:13.5px;line-height:1.3}
 .n .who{font-family:var(--f-mono);font-size:11px;color:var(--muted)}
 .n .do{font-size:12.5px;color:var(--muted);line-height:1.4}
+/* Плашка ИИ-модели в карточке схемы и в легенде над схемой.
+   --v — цвет компании-разработчика (MV → VC в скрипте), тот же, что у аватара
+   в «Моделях департамента», поэтому модель узнаётся в обоих разделах.
+   Буква в кружке — первая буква компании, как в рейтинге. Название переносится,
+   а не обрезается: длинные имена (DeepSeek-V4.1-Flash-1017) влезают на телефоне. */
+.mp{--v:var(--muted);justify-self:start;display:inline-flex;align-items:center;gap:7px;max-width:100%;margin:3px 0 2px;
+  padding:3px 12px 3px 3px;border-radius:999px;background:color-mix(in srgb,var(--v) 22%,var(--surface));
+  border:1.5px solid color-mix(in srgb,var(--v) 75%,transparent);box-shadow:0 2px 10px color-mix(in srgb,var(--v) 24%,transparent);
+  font-family:var(--f-body);font-size:13px;font-weight:600;line-height:1.25;color:var(--ink)}
+.mp-av{flex:none;width:22px;height:22px;border-radius:50%;display:grid;place-items:center;background:var(--v);color:var(--on-v);
+  font-family:var(--f-display);font-size:11px;font-weight:700}
+.mp-nm{min-width:0;overflow-wrap:anywhere}
+.n.big .mp{font-size:14px;padding-right:14px}
+.n.big .mp-av{width:26px;height:26px;font-size:12px}
+.mlegend{display:flex;flex-wrap:wrap;align-items:center;gap:8px}
+.mlegend .cap{flex-basis:100%;font-size:13.5px;color:var(--muted)}
+.mlegend .mp{margin:0;font-size:12.5px;font-weight:500;box-shadow:none}
 .n.big{flex-basis:330px;padding:14px 16px}
 .n.big b{font-size:15.5px}
 .n.boss{background:linear-gradient(135deg,color-mix(in srgb,var(--accent) 16%,var(--surface)),color-mix(in srgb,var(--accent) 6%,var(--surface)));color:var(--ink);border:2px solid color-mix(in srgb,var(--accent) 60%,transparent);border-top:2px solid color-mix(in srgb,var(--accent) 60%,transparent);padding:18px 22px;flex-basis:380px;box-shadow:0 8px 24px color-mix(in srgb,var(--accent) 16%,transparent);gap:6px}
@@ -239,8 +259,16 @@ footer{font-size:12.5px;color:var(--muted);display:flex;flex-wrap:wrap;gap:6px 1
 <body>
 <noscript><div><img src="https://mc.yandex.ru/watch/113625002" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
 <div class="wrap">
+  <!-- Шапка: крупный заголовок департамента. Возвращён 20.11.2026 по просьбе
+       владельца; карточки-тезисы, навигация и таблицы отделов остаются снятыми. -->
+  <header>
+    <h1>Департамент маркетинга: <em>1&nbsp;директор&nbsp;— Виталий&nbsp;Морозов</em>, 2 руководителя, 8 отделов, 25 сотрудников</h1>
+  </header>
+
   <section id="flow" aria-labelledby="flow-h">
     <h2 class="sec" id="flow-h">Схема взаимодействия: от задачи до итога</h2>
+    <!-- Легенда цветов плашек моделей: заполняется скриптом из MV/VC -->
+    <div class="mlegend" id="mlegend"></div>
 
     <div class="flow" id="flowBox">
       <div class="lvl">
@@ -325,6 +353,14 @@ footer{font-size:12.5px;color:var(--muted);display:flex;flex-wrap:wrap;gap:6px 1
 const MN = {claude:"Claude Fable 5.2",gpt:"GPT-6.2 Astra",gemini:"Gemini 4 Hydrogen","gemini-pro":"Gemini 4 Carbon",kimi:"Kimi K3.1 Pro",
   minimax:"MiniMax-M3.1-Flash","minimax-go":"MiniMax-M3.1-Flash (OpenCode)","deepseek-pro":"DeepSeek-V4-Pro-0813",deepseek:"DeepSeek-V4.1-Flash-1017",muse:"Muse Ember",
   "qwen-max":"Qwen4-Max",mimo:"MiMo V2.6 Pro","mimo-flash":"MiMo V2.6 Flash","gemini-img":"Nano Banana 2.1 (Gemini)","chatgpt-img":"ChatGPT Images 2.6","minimax-img":"MiniMax-H3-Image",glm:"GLM-5.3"};
+// MV связывает ключ модели с разработчиком, а VC задаёт цвет компании: им красятся
+// плашки моделей на схеме, легенда над схемой и карточки в рейтинге моделей.
+// Объявлены до схемы, потому что node() рисует плашку сразу при построении узлов.
+const MV = {claude:"Anthropic",gpt:"OpenAI",gemini:"Google","gemini-pro":"Google",kimi:"Moonshot AI",
+  minimax:"MiniMax","deepseek-pro":"DeepSeek",deepseek:"DeepSeek",muse:"Meta","qwen-max":"Alibaba",mimo:"Xiaomi","mimo-flash":"Xiaomi",
+  "gemini-img":"Google","chatgpt-img":"OpenAI","minimax-img":"MiniMax",glm:"Z.ai"};
+const VC = {Anthropic:"--c-lead",OpenAI:"--deputy",Google:"--c-research","Moonshot AI":"--c-strategy",MiniMax:"--c-ads",DeepSeek:"--c-legal",
+  Meta:"--c-focus",Alibaba:"--c-design",Xiaomi:"--c-control","Z.ai":"--c-fact"};
 // Первый ключ в ch задаёт модель на схеме и в таблице. Остальные ключи — запасные модели по порядку.
 const DEPTS = [
   {id:"lead",em:"🟣",n:"Руководство",c:"--c-lead",lead:true,roles:[
@@ -373,7 +409,17 @@ const store={get(k){try{return localStorage.getItem(k)}catch(e){return null}},se
 
 /* Вертикальная схема: подписи описывают реальную работу должностей,
    данные DEPTS служат единым источником моделей для таблиц и узлов схемы. */
-const node=(k,doText)=>{ const r=ROLE[k]; return `<div class="n" data-k="${k}" style="--c:var(${r.d.c})"><b>${esc(r.p)}</b><span class="who">${esc(MN[r.ch[0]])}</span>${doText?`<span class="do">${esc(doText)}</span>`:""}</div>`; };
+/**
+ * Цветная плашка: кружок с первой буквой компании + подпись.
+ * @param {string} v      компания-разработчик (ключ VC); без цвета — серая плашка
+ * @param {string} text   подпись плашки: название модели или компании
+ * @param {string} [title] всплывающая подсказка
+ * @returns {string} HTML <span class="mp">
+ */
+const pill=(v,text,title)=>`<span class="mp" style="--v:var(${VC[v]||"--muted"})"${title?` title="${esc(title)}"`:""}><span class="mp-av" aria-hidden="true">${esc(v?v[0]:"•")}</span><span class="mp-nm">${esc(text)}</span></span>`;
+/** Плашка ИИ-модели по ключу MN: цвет и буква — от компании из MV. */
+const modelPill=k=>pill(MV[k],MN[k],`ИИ-модель: ${MN[k]}${MV[k]?" · "+MV[k]:""}`);
+const node=(k,doText)=>{ const r=ROLE[k]; return `<div class="n" data-k="${k}" style="--c:var(${r.d.c})"><b>${esc(r.p)}</b>${modelPill(r.ch[0])}${doText?`<span class="do">${esc(doText)}</span>`:""}</div>`; };
 const grp=(id,title,inner,chain)=>{ const d=DEPTS.find(x=>x.id===id); return `<div class="grp" data-g="${id}" style="--c:var(${d.c})"><div class="grp-t">${d.em} ${esc(title||d.n)}</div>${inner}${chain?`<div class="inchain">${chain}</div>`:""}</div>`; };
 $("#w1").innerHTML =
   grp("research",null, node("researcher","Изучает рынок, спрос и боли целевой аудитории")+node("competitor","Следит за офферами, ценами, рекламой и сайтами конкурентов")+node("seo_geo","Настраивает SEO в Яндексе: семантика, структура, GEO")+node("long_context","Разбирает большие ТЗ и выгрузки, сопоставляет документы")) +
@@ -391,13 +437,19 @@ $("#w4").innerHTML =
 $("#w5").innerHTML = grp("control","Контроль качества",node("critic","Ищет независимо ошибки, недоказанное и пропуски")+node("legal_reviewer","Оценивает каждый фрагмент: разрешено / риск / нельзя определить")+node("red_team","Доказывает, что план провалится: ЦА, оффер, экономика, право"),"видят только задание, исходные данные и ИТОГ.md; замечания → <b>Руководителю</b>");
 
 
+/* Карточки руководителя и заместителя (шаги 2 и 8) стоят в HTML статично
+   с текстовой подписью .who — на случай выключенного JS. Здесь подпись
+   заменяется той же цветной плашкой, что у остальных узлов схемы. */
+document.querySelectorAll("#flowBox .n[data-k] .who").forEach(el=>{
+  const r=ROLE[el.closest(".n").dataset.k]; if(r) el.outerHTML=modelPill(r.ch[0]);
+});
+/* Легенда над схемой: по одной плашке на каждую компанию, чьи модели стоят
+   на схеме (основная модель каждой должности), в порядке появления. */
+$("#mlegend").innerHTML=`<span class="cap">🤖 Цветная плашка в карточке — ИИ-модель сотрудника. Цвет — компания-разработчик, как в «Моделях департамента»:</span>`+
+  [...new Set(Object.values(ROLE).map(r=>MV[r.ch[0]]).filter(Boolean))].map(v=>pill(v,v)).join("");
+
 /* ───── модели департамента: рейтинг по числу должностей ───── */
-// MV связывает ключ модели с разработчиком, а VC задаёт цвет его карточки в рейтинге.
-const MV = {claude:"Anthropic",gpt:"OpenAI",gemini:"Google","gemini-pro":"Google",kimi:"Moonshot AI",
-  minimax:"MiniMax","deepseek-pro":"DeepSeek",deepseek:"DeepSeek",muse:"Meta","qwen-max":"Alibaba",mimo:"Xiaomi","mimo-flash":"Xiaomi",
-  "gemini-img":"Google","chatgpt-img":"OpenAI","minimax-img":"MiniMax",glm:"Z.ai"};
-const VC = {Anthropic:"--c-lead",OpenAI:"--deputy",Google:"--c-research","Moonshot AI":"--c-strategy",MiniMax:"--c-ads",DeepSeek:"--c-legal",
-  Meta:"--c-focus",Alibaba:"--c-design",Xiaomi:"--c-control","Z.ai":"--c-fact"};
+// MV и VC объявлены выше, рядом с MN.
 (function(){
   const cnt={};
   DEPTS.forEach(d=>d.roles.forEach(r=>{
