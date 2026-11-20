@@ -239,42 +239,6 @@ footer{font-size:12.5px;color:var(--muted);display:flex;flex-wrap:wrap;gap:6px 1
 <body>
 <noscript><div><img src="https://mc.yandex.ru/watch/113625002" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
 <div class="wrap">
-  <header>
-
-    <h1>Департамент маркетинга: <em>1&nbsp;директор&nbsp;— Виталий&nbsp;Морозов</em>, 2 руководителя, 8 отделов, 25 сотрудников</h1>
-    <ul class="theses">
-      <li class="th boss-th"><span class="ic" aria-hidden="true">👤</span><b>Виталий Морозов</b><span>Директор департамента: ставит цели, утверждает бюджеты и запуски</span></li>
-      <li class="th" style="--c:var(--c-lead)"><span class="ic" aria-hidden="true">🟣</span><b>Руководитель · Claude</b><span>Ведёт задачу, все 8 отделов подчиняются ему</span></li>
-      <li class="th" style="--c:var(--deputy)"><span class="ic" aria-hidden="true">🔑</span><b>Заместитель · GPT</b><span>Второй ключ: утверждает план и подписывает приёмку</span></li>
-      <li class="th" style="--c:var(--c-research)"><span class="ic" aria-hidden="true">🤖</span><b>25 сотрудников</b><span>ИИ-модели, у каждой 2 запасные на случай сбоя</span></li>
-    </ul>
-  </header>
-
-  <nav class="jump" aria-label="Разделы">
-    <a href="#dep" data-sec="dep" class="on" aria-current="true">
-      <span class="ji" aria-hidden="true">🏢</span>
-      <span class="jt"><b><span class="full">Департамент и отделы</span><span class="short">Отделы</span></b><small>8 отделов · 25 сотрудников · модели</small></span>
-    </a>
-    <a href="#flow" data-sec="flow">
-      <span class="ji" aria-hidden="true">🧭</span>
-      <span class="jt"><b><span class="full">Схема: от задачи до итога</span><span class="short">Схема</span></b><small>9 шагов · кто кому что передаёт</small></span>
-    </a>
-    <a href="#models" data-sec="models">
-      <span class="ji" aria-hidden="true">🤖</span>
-      <span class="jt"><b><span class="full">Модели департамента</span><span class="short">Модели</span></b><small id="navModels">все ИИ-модели и где они работают</small></span>
-    </a>
-  </nav>
-
-  <section id="dep" aria-labelledby="dep-h">
-    <h2 class="sec" id="dep-h">Департамент и отделы</h2>
-    <div class="tools">
-      <input class="search" id="q" type="search" placeholder="Найти должность, модель или задачу…" aria-label="Поиск по департаменту">
-      <button class="btn btn-toggle" id="toggleAll" type="button" aria-expanded="true"><span class="bti" aria-hidden="true">⊟</span>Свернуть все отделы</button>
-      <span class="count" id="count"></span>
-    </div>
-    <div id="depts" style="display:grid;gap:16px"></div>
-  </section>
-
   <section id="flow" aria-labelledby="flow-h">
     <h2 class="sec" id="flow-h">Схема взаимодействия: от задачи до итога</h2>
 
@@ -406,75 +370,6 @@ const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",
 const ROLE={}; DEPTS.forEach(d=>d.roles.forEach(r=>{ROLE[r.k]={...r,d}}));
 const store={get(k){try{return localStorage.getItem(k)}catch(e){return null}},set(k,v){try{localStorage.setItem(k,v)}catch(e){}}};
 
-/* ───── отделы-таблицы ───── */
-function chainHTML(r){
-  const parts=r.ch.map((m,i)=>`<span class="m${i===0?" main":""}">${esc(MN[m])}</span>`).join('<span class="arr" aria-hidden="true">→</span>');
-  const priv=r.pv?`<div class="priv">с данными клиента вместо Muse: <span class="m">${esc(MN[r.pv])}</span></div>`:"";
-  return `<div class="chain">${parts}</div>${priv}`;
-}
-/* значки отдела: 🌐 👁 🔒 — если они есть хотя бы у одного сотрудника отдела */
-function deptFlags(d){
-  const all=d.roles.map(r=>r.fl||"").join("");
-  const f=["🌐","👁","🔒"].filter(x=>all.includes(x));
-  return f.length?`<span class="dflags" title="${f.map(x=>({"🌐":"ищет в интернете","👁":"видит картинки и скриншоты","🔒":"видит только итоговый документ"}[x])).join(", ")}">${f.join(" ")}</span>`:"";
-}
-// Каждая загрузка начинается с раскрытых отделов, независимо от ранее
-// сохранённого closed. Сворачивание кнопками работает до следующей загрузки.
-let closed=new Set();
-$("#depts").innerHTML=DEPTS.map(d=>`
-  <div class="dept${closed.has(d.id)?" closed":""}" id="d-${d.id}" style="--c:var(${d.c})">
-    <button class="dept-h" type="button" aria-expanded="${!closed.has(d.id)}" data-d="${d.id}">
-      <h3><span class="em" aria-hidden="true">${d.em}</span>${esc(d.n)}</h3>
-      <span class="dept-meta"><span>${d.lead?"руководство":`${d.roles.length} ${d.roles.length===1?"сотрудник":d.roles.length<5?"сотрудника":"сотрудников"} · подчиняется руководителю`}</span><span class="chev" aria-hidden="true">▾</span></span>
-    </button>
-    <div class="tbl"><table>
-      <thead><tr><th>Должность</th><th>${d.lead?"Модель":"Основная → запасные"}</th><th>Функционал</th></tr></thead>
-      <tbody>${d.roles.map(r=>`<tr data-k="${r.k}"><td class="pos">${esc(r.p)}</td><td class="mod">${chainHTML(r)}</td><td class="fn">${esc(r.f)}</td></tr>`).join("")}</tbody>
-    </table>${d.note?`<p class="note">${esc(d.note)}</p>`:""}</div>
-  </div>`).join("");
-$("#depts").addEventListener("click",e=>{
-  const b=e.target.closest(".dept-h"); if(!b) return; const id=b.dataset.d, box=$("#d-"+id);
-  box.classList.toggle("closed"); const isClosed=box.classList.contains("closed"); b.setAttribute("aria-expanded",String(!isClosed));
-  isClosed?closed.add(id):closed.delete(id); store.set("closed",[...closed].join(",")); syncToggle();
-});
-/**
- * Синхронизирует кнопку со свёрнутыми отделами в DOM после клика или поиска.
- * Параметров нет; возвращает void. Обновляет aria-expanded, иконку и подпись.
- * DOM является источником состояния: поиск может раскрыть отдел независимо
- * от ранее сохранённого closed, поэтому одного closed.size недостаточно.
- */
-function syncToggle(){
-  const anyOpen=!!document.querySelector(".dept:not(.closed)");
-  const btn=$("#toggleAll");
-  btn.setAttribute("aria-expanded",String(anyOpen));
-  btn.innerHTML=`<span class="bti" aria-hidden="true">${anyOpen?"⊟":"⊞"}</span>${anyOpen?"Свернуть все отделы":"Развернуть все отделы"}`;
-}
-$("#toggleAll").addEventListener("click",()=>{
-  // Если открыт хотя бы один отдел, сворачиваем все; иначе раскрываем.
-  const collapse = !!document.querySelector(".dept:not(.closed)");
-  DEPTS.forEach(d=>{ const box=$("#d-"+d.id); box.classList.toggle("closed",collapse); box.querySelector(".dept-h").setAttribute("aria-expanded",String(!collapse)); });
-  closed = collapse ? new Set(DEPTS.map(d=>d.id)) : new Set(); store.set("closed",[...closed].join(",")); syncToggle();
-});
-syncToggle();
-const total=DEPTS.reduce((a,d)=>a+d.roles.length,0);
-/**
- * Фильтрует должности по строке #q, без параметров; возвращает void.
- * Показывает совпавшие строки, скрывает пустые отделы, раскрывает найденные
- * отделы и сохраняет согласованное closed в локальном хранилище. В конце
- * обновляет счётчик и общую кнопку, чтобы aria-expanded не отставал от DOM.
- */
-function filter(){
-  const q=$("#q").value.trim().toLowerCase(); let shown=0;
-  DEPTS.forEach(d=>{ let any=0;
-    d.roles.forEach(r=>{ const hay=[r.p,r.f,d.n,...r.ch.map(m=>MN[m]),r.pv?MN[r.pv]:""].join(" ").toLowerCase();
-      const ok=!q||hay.includes(q); document.querySelector(`#d-${d.id} tr[data-k="${r.k}"]`).classList.toggle("hide",!ok); if(ok){any++;shown++;} });
-    const box=$("#d-"+d.id); box.hidden = !!q && !any;
-    if(q&&any&&box.classList.contains("closed")){ box.classList.remove("closed"); box.querySelector(".dept-h").setAttribute("aria-expanded","true"); closed.delete(d.id); }
-  });
-  store.set("closed",[...closed].join(",")); syncToggle();
-  $("#count").textContent = q ? `найдено ${shown} из ${total}` : "";
-}
-$("#q").addEventListener("input",filter); filter();
 
 /* Вертикальная схема: подписи описывают реальную работу должностей,
    данные DEPTS служат единым источником моделей для таблиц и узлов схемы. */
@@ -512,7 +407,6 @@ const VC = {Anthropic:"--c-lead",OpenAI:"--deputy",Google:"--c-research","Moonsh
   const lead=["claude","gpt"], staff=Object.keys(cnt).filter(k=>!lead.includes(k)).sort((a,b)=>cnt[b]-cnt[a]||MN[a].localeCompare(MN[b]));
   const vendors=new Set(Object.keys(cnt).map(k=>MV[k]));
   $("#msum").innerHTML=`<span><b>${Object.keys(cnt).length}</b>моделей</span><span><b>${vendors.size}</b>компаний</span>`;
-  $("#navModels").textContent=`${Object.keys(cnt).length} моделей · ${vendors.size} компаний`;
   const av=k=>`<span class="av" aria-hidden="true">${esc(MV[k][0])}</span>`;
   $("#mlead").innerHTML=[["claude","Руководитель отдела"],["gpt","Заместитель руководителя"]].map(([k,who])=>
     `<div class="ml" style="--c:var(${VC[MV[k]]})">${av(k)}<div><div class="who">${who}</div><div class="nm">${esc(MN[k])}</div><div class="vd">${esc(MV[k])}</div></div></div>`).join("");
@@ -526,16 +420,6 @@ const VC = {Anthropic:"--c-lead",OpenAI:"--deputy",Google:"--c-research","Moonsh
     </div>`).join("");
 })();
 
-/* ───── переключатели разделов: подсветка текущего ───── */
-(function(){
-  const links=[...document.querySelectorAll("nav.jump a")];
-  const set=id=>links.forEach(a=>{const on=a.dataset.sec===id; a.classList.toggle("on",on); on?a.setAttribute("aria-current","true"):a.removeAttribute("aria-current");});
-  const secs=["dep","flow","models"].map(id=>document.getElementById(id));
-  const update=()=>{ let cur="dep"; secs.forEach(el=>{ if(el.getBoundingClientRect().top < window.innerHeight*0.45) cur=el.id; }); set(cur); };
-  window.addEventListener("scroll",update,{passive:true}); window.addEventListener("resize",update);
-  links.forEach(a=>a.addEventListener("click",()=>set(a.dataset.sec)));
-  update();
-})();
 </script>
 
 </body>
