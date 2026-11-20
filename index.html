@@ -25,6 +25,8 @@
   /* --on-v: цвет буквы в кружке плашки модели поверх цвета компании.
      В светлой теме белый, в тёмной — почти чёрный: цвета там светлее. */
   --on-v:#FFFFFF;
+  /* --cta-*: карточка CTA «Экономика ИИ-департамента» (см. стили .cta) */
+  --cta-bg:#15202B; --cta-ink:#F4F7FA; --cta-muted:#A7B4C0; --cta-line:rgba(255,255,255,.12); --cta-acc:#FF8A4C;
   --f-display:"Unbounded","Golos Text",system-ui,sans-serif;
   --f-body:"Golos Text",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
   --f-mono:"JetBrains Mono",ui-monospace,"Cascadia Mono",Consolas,monospace;
@@ -34,13 +36,15 @@
   --bg:#0E141A; --surface:#151D25; --surface-2:#1C2630; --ink:#E6EDF3; --muted:#93A3B1; --line:#2A3743;
   --accent:#FF8A4C; --deputy:#3DCB95; --owner:#E6EDF3; --risk:#FF7A6B; --warn:#F2B451;
   --c-lead:#FF8A4C; --c-research:#6E9BFF; --c-legal:#A98BFF; --c-strategy:#3CC4CC; --c-ads:#FF6F9F;
-  --c-design:#F5B13D; --c-focus:#B5C64A; --c-fact:#4FC3DC; --nav-on:#6E9BFF; --c-control:#FF7A6B; --on-v:#0E141A; color-scheme:dark;
+  --c-design:#F5B13D; --c-focus:#B5C64A; --c-fact:#4FC3DC; --nav-on:#6E9BFF; --c-control:#FF7A6B; --on-v:#0E141A;
+  --cta-bg:#1A2530; --cta-ink:#F4F7FA; --cta-muted:#A7B4C0; --cta-line:rgba(255,255,255,.10); --cta-acc:#FF8A4C; color-scheme:dark;
 }}
 :root[data-theme="dark"]{
   --bg:#0E141A; --surface:#151D25; --surface-2:#1C2630; --ink:#E6EDF3; --muted:#93A3B1; --line:#2A3743;
   --accent:#FF8A4C; --deputy:#3DCB95; --owner:#E6EDF3; --risk:#FF7A6B; --warn:#F2B451;
   --c-lead:#FF8A4C; --c-research:#6E9BFF; --c-legal:#A98BFF; --c-strategy:#3CC4CC; --c-ads:#FF6F9F;
-  --c-design:#F5B13D; --c-focus:#B5C64A; --c-fact:#4FC3DC; --nav-on:#6E9BFF; --c-control:#FF7A6B; --on-v:#0E141A; color-scheme:dark;
+  --c-design:#F5B13D; --c-focus:#B5C64A; --c-fact:#4FC3DC; --nav-on:#6E9BFF; --c-control:#FF7A6B; --on-v:#0E141A;
+  --cta-bg:#1A2530; --cta-ink:#F4F7FA; --cta-muted:#A7B4C0; --cta-line:rgba(255,255,255,.10); --cta-acc:#FF8A4C; color-scheme:dark;
 }
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
@@ -160,30 +164,47 @@ tr.hide{display:none}
 .n b{font-size:13.5px;line-height:1.3}
 .n .who{font-family:var(--f-mono);font-size:11px;color:var(--muted)}
 .n .do{font-size:12.5px;color:var(--muted);line-height:1.4}
-/* CTA перед схемой: слева перечёркнутый ФОТ людей, справа затраты на ИИ.
-   На телефоне две карточки встают столбиком, стрелка поворачивается вниз.
-   Текст кнопки --on-v: белый в светлой теме, тёмный в тёмной. Фон кнопки —
-   акцент, затемнённый на 14%, чтобы белый текст читался (контраст ≈ 4.6). */
-.cta{display:grid;gap:16px;padding:clamp(18px,3vw,28px);border-radius:20px;
-  background:linear-gradient(135deg,color-mix(in srgb,var(--accent) 14%,var(--surface)),color-mix(in srgb,var(--deputy) 12%,var(--surface)));
-  border:1.5px solid color-mix(in srgb,var(--accent) 45%,var(--line));box-shadow:0 10px 30px color-mix(in srgb,var(--accent) 14%,transparent)}
-.cta-k{font-size:12.5px;letter-spacing:.08em;text-transform:uppercase;font-weight:700;color:var(--accent)}
-.cta-row{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:stretch;gap:14px}
-.cta-c{display:grid;gap:2px;align-content:center;padding:14px 18px;border-radius:14px;background:var(--surface);border:1px solid var(--line);min-width:0}
-.cta-c small{font-size:13.5px;color:var(--muted)}
-.cta-c b{font-family:var(--f-display);font-weight:700;font-size:clamp(24px,3.8vw,40px);line-height:1.12}
-.cta-old b{color:var(--risk);text-decoration:line-through;text-decoration-thickness:3px;text-decoration-color:color-mix(in srgb,var(--risk) 70%,transparent)}
-.cta-new{border:2px solid var(--deputy);background:color-mix(in srgb,var(--deputy) 12%,var(--surface));box-shadow:0 6px 20px color-mix(in srgb,var(--deputy) 22%,transparent)}
-.cta-new b{color:var(--deputy)}
-.cta-vs{align-self:center;font-family:var(--f-display);font-weight:700;font-size:30px;color:var(--muted)}
-.cta-foot{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px 18px}
-.cta-foot p{margin:0;font-family:var(--f-display);font-weight:500;font-size:clamp(16px,2.2vw,22px);line-height:1.25;text-wrap:balance}
-.cta-foot p em{font-style:normal;color:var(--accent)}
-.cta-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:46px;padding:10px 22px;border-radius:999px;
-  background:color-mix(in srgb,var(--accent) 86%,#000);color:var(--on-v);font-weight:700;font-size:15px;text-decoration:none;
-  box-shadow:0 6px 18px color-mix(in srgb,var(--accent) 35%,transparent);transition:transform .15s,box-shadow .2s}
-.cta-btn:hover{transform:translateY(-1px);box-shadow:0 8px 24px color-mix(in srgb,var(--accent) 50%,transparent)}
-@media (max-width:640px){.cta-row{grid-template-columns:1fr} .cta-vs{justify-self:center;transform:rotate(90deg);font-size:24px;line-height:1} .cta-btn{width:100%}}
+/* CTA «Экономика ИИ-департамента» перед схемой (редизайн 21.11.2026, без перечёркиваний).
+   Тёмная карточка-акцент: слева тезис «в 33 раза дешевле» и кнопка к схеме, справа
+   сравнение полосами. ФОТ людей — полная приглушённая полоса, затраты на ИИ — 3 %
+   (30 000 / 1 000 000) с оранжевым свечением: разницу показывает длина, а не зачёркивание.
+   Свои токены --cta-*: в светлой теме карточка тёмная (инверсия, чтобы выделялась на
+   светлом фоне), в тёмной — чуть приподнятая поверхность; акцент в обеих темах один —
+   светлый оранжевый, контраст текста кнопки (#15202B на #FF8A4C) ≈ 7.
+   Сетка: на компьютере «тезис | сравнение» + кнопка под тезисом; до 760px всё в столбик,
+   кнопка последней и на всю ширину. */
+.cta{position:relative;overflow:hidden;display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);
+  grid-template-areas:"main cmp" "btn cmp";column-gap:clamp(24px,5vw,64px);row-gap:22px;align-items:center;
+  padding:clamp(22px,4vw,44px);border-radius:24px;color:var(--cta-ink);border:1px solid var(--cta-line);
+  background:radial-gradient(120% 100% at 100% 0%,rgba(255,138,76,.24),transparent 55%),
+             radial-gradient(90% 90% at 0% 100%,rgba(61,203,149,.10),transparent 60%),var(--cta-bg);
+  box-shadow:0 20px 44px rgba(21,32,43,.20)}
+.cta-main{grid-area:main;display:grid;gap:12px;align-self:end}
+.cta-k{font-size:12px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:var(--cta-acc)}
+.cta-h{margin:0;font-family:var(--f-display);font-weight:700;font-size:clamp(25px,3.5vw,40px);line-height:1.08;text-wrap:balance}
+.cta-h em{font-style:normal;color:var(--cta-acc)}
+.cta-s{margin:0;color:var(--cta-muted);font-size:15px;line-height:1.5;max-width:46ch}
+.cta-btn{grid-area:btn;justify-self:start;align-self:start;display:inline-flex;align-items:center;justify-content:center;gap:10px;
+  min-height:48px;padding:12px 24px;border-radius:999px;background:var(--cta-acc);color:#15202B;font-weight:700;font-size:15px;
+  text-decoration:none;box-shadow:0 8px 24px rgba(255,138,76,.35);transition:transform .15s,box-shadow .2s}
+.cta-btn:hover{transform:translateY(-2px);box-shadow:0 12px 30px rgba(255,138,76,.5)}
+.cta-btn:focus-visible{outline:2px solid var(--cta-ink);outline-offset:3px}
+.cta-cmp{grid-area:cmp;display:grid;gap:22px;padding:clamp(18px,2.5vw,26px);border-radius:18px;
+  background:rgba(255,255,255,.04);border:1px solid var(--cta-line)}
+.cmp{display:grid;gap:10px}
+.cmp-top{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:4px 14px}
+.cmp-top span{font-size:13.5px;color:var(--cta-muted)}
+.cmp-top b{font-family:var(--f-display);font-weight:600;font-size:clamp(20px,2.6vw,28px);line-height:1.1;white-space:nowrap;font-variant-numeric:tabular-nums}
+.cmp-bar{height:12px;border-radius:999px;background:rgba(255,255,255,.08);overflow:hidden}
+.cmp-bar i{display:block;height:100%;border-radius:inherit;background:rgba(255,255,255,.34);transform-origin:left center;
+  animation:cmpIn 1.2s cubic-bezier(.2,.7,.2,1) both}
+.cmp.ai b{color:var(--cta-acc)}
+.cmp.ai .cmp-bar{overflow:visible}
+.cmp.ai .cmp-bar i{min-width:14px;background:linear-gradient(90deg,#FFC39B,var(--cta-acc));box-shadow:0 0 16px rgba(255,138,76,.85);animation-delay:.25s}
+.cmp-note{font-size:12.5px;color:var(--cta-muted);border-top:1px solid var(--cta-line);padding-top:14px}
+@keyframes cmpIn{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+@media (prefers-reduced-motion:reduce){.cmp-bar i{animation:none}}
+@media (max-width:760px){.cta{grid-template-columns:1fr;grid-template-areas:"main" "cmp" "btn"} .cta-main{align-self:auto} .cta-btn{justify-self:stretch}}
 /* Плашка ИИ-модели в карточке схемы.
    --v — цвет компании-разработчика (MV → VC в скрипте), тот же, что у аватара
    в «Моделях департамента», поэтому модель узнаётся в обоих разделах.
@@ -286,20 +307,27 @@ footer{font-size:12.5px;color:var(--muted);display:flex;flex-wrap:wrap;gap:6px 1
     <h1>ИИ-Департамент маркетинга: <em>1&nbsp;директор&nbsp;— Виталий&nbsp;Морозов</em>, 2&nbsp;руководителя, 8&nbsp;отделов, 25&nbsp;сотрудников</h1>
   </header>
 
-  <!-- CTA перед схемой: сравнение ФОТ людей и затрат на ИИ. Цифры дал владелец
-       20.11.2026: ФОТ «более 1 млн ₽», ИИ «до 30 000 ₽» (1 000 000 / 30 000 ≈ 33).
-       Кнопка ведёт к схеме #flow. -->
-  <aside class="cta" aria-label="Сколько стоит ИИ-департамент">
-    <span class="cta-k">💸 Сколько стоил бы такой отдел из людей</span>
-    <div class="cta-row">
-      <div class="cta-c cta-old"><small>ФОТ 25 таких сотрудников-людей</small><b>более 1&nbsp;000&nbsp;000&nbsp;₽</b><small>в месяц</small></div>
-      <span class="cta-vs" aria-hidden="true">→</span>
-      <div class="cta-c cta-new"><small>Затраты на ИИ-модели</small><b>до 30&nbsp;000&nbsp;₽</b><small>в месяц</small></div>
+  <!-- CTA «Экономика ИИ-департамента» перед схемой. Цифры дал владелец 20.11.2026:
+       ФОТ людей «более 1 млн ₽», ИИ «до 30 000 ₽» в месяц; 1 000 000 / 30 000 ≈ 33,
+       30 000 / 1 000 000 = 3 % — ширина полосы ИИ. Кнопка ведёт к схеме #flow. -->
+  <aside class="cta" aria-label="Экономика ИИ-департамента">
+    <div class="cta-main">
+      <span class="cta-k">Экономика ИИ-департамента</span>
+      <p class="cta-h">Та же работа — <em>в&nbsp;33&nbsp;раза</em> дешевле</p>
+      <p class="cta-s">Как 25 ИИ-сотрудников передают задачу друг другу от постановки до результата — на схеме ниже.</p>
     </div>
-    <div class="cta-foot">
-      <p>Та же работа <em>в 33 раза дешевле</em>. Смотрите, как она устроена</p>
-      <a class="cta-btn" href="#flow">Смотреть схему <span aria-hidden="true">↓</span></a>
+    <div class="cta-cmp">
+      <div class="cmp">
+        <div class="cmp-top"><span>Штат из 25 человек · ФОТ</span><b>от 1&nbsp;000&nbsp;000&nbsp;₽</b></div>
+        <div class="cmp-bar" aria-hidden="true"><i style="width:100%"></i></div>
+      </div>
+      <div class="cmp ai">
+        <div class="cmp-top"><span>25 ИИ-сотрудников · модели</span><b>до 30&nbsp;000&nbsp;₽</b></div>
+        <div class="cmp-bar" aria-hidden="true"><i style="width:3%"></i></div>
+      </div>
+      <span class="cmp-note">Суммы — в месяц</span>
     </div>
+    <a class="cta-btn" href="#flow">Смотреть схему <span aria-hidden="true">↓</span></a>
   </aside>
 
   <section id="flow" aria-labelledby="flow-h">
