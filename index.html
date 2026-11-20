@@ -26,7 +26,9 @@
      В светлой теме белый, в тёмной — почти чёрный: цвета там светлее. */
   --on-v:#FFFFFF;
   /* --cta-*: карточка CTA «Экономика ИИ-департамента» (см. стили .cta) */
-  --cta-bg:#15202B; --cta-ink:#F4F7FA; --cta-muted:#A7B4C0; --cta-line:rgba(255,255,255,.12); --cta-acc:#FF8A4C;
+  --cta-bg:#FFF7F1; --cta-ink:#15202B; --cta-muted:#5B6976; --cta-line:rgba(21,32,43,.10);
+  --cta-acc:#E8590C; --cta-acc-ink:#C2470A; --cta-panel:#FFFFFF; --cta-panel-shadow:rgba(21,32,43,.06);
+  --cta-track:#EDF1F4; --cta-bar:#B7C3CD; --cta-btn:#15202B; --cta-btn-ink:#FFFFFF; --cta-btn-arr:#FF8A4C; --cta-shadow:rgba(232,89,12,.12);
   --f-display:"Unbounded","Golos Text",system-ui,sans-serif;
   --f-body:"Golos Text",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
   --f-mono:"JetBrains Mono",ui-monospace,"Cascadia Mono",Consolas,monospace;
@@ -37,14 +39,18 @@
   --accent:#FF8A4C; --deputy:#3DCB95; --owner:#E6EDF3; --risk:#FF7A6B; --warn:#F2B451;
   --c-lead:#FF8A4C; --c-research:#6E9BFF; --c-legal:#A98BFF; --c-strategy:#3CC4CC; --c-ads:#FF6F9F;
   --c-design:#F5B13D; --c-focus:#B5C64A; --c-fact:#4FC3DC; --nav-on:#6E9BFF; --c-control:#FF7A6B; --on-v:#0E141A;
-  --cta-bg:#1A2530; --cta-ink:#F4F7FA; --cta-muted:#A7B4C0; --cta-line:rgba(255,255,255,.10); --cta-acc:#FF8A4C; color-scheme:dark;
+  --cta-bg:#1E2833; --cta-ink:#F4F7FA; --cta-muted:#A7B4C0; --cta-line:rgba(255,255,255,.10);
+  --cta-acc:#FF8A4C; --cta-acc-ink:#FF8A4C; --cta-panel:rgba(255,255,255,.04); --cta-panel-shadow:transparent;
+  --cta-track:rgba(255,255,255,.08); --cta-bar:rgba(255,255,255,.34); --cta-btn:#FF8A4C; --cta-btn-ink:#15202B; --cta-btn-arr:#15202B; --cta-shadow:rgba(0,0,0,.30); color-scheme:dark;
 }}
 :root[data-theme="dark"]{
   --bg:#0E141A; --surface:#151D25; --surface-2:#1C2630; --ink:#E6EDF3; --muted:#93A3B1; --line:#2A3743;
   --accent:#FF8A4C; --deputy:#3DCB95; --owner:#E6EDF3; --risk:#FF7A6B; --warn:#F2B451;
   --c-lead:#FF8A4C; --c-research:#6E9BFF; --c-legal:#A98BFF; --c-strategy:#3CC4CC; --c-ads:#FF6F9F;
   --c-design:#F5B13D; --c-focus:#B5C64A; --c-fact:#4FC3DC; --nav-on:#6E9BFF; --c-control:#FF7A6B; --on-v:#0E141A;
-  --cta-bg:#1A2530; --cta-ink:#F4F7FA; --cta-muted:#A7B4C0; --cta-line:rgba(255,255,255,.10); --cta-acc:#FF8A4C; color-scheme:dark;
+  --cta-bg:#1E2833; --cta-ink:#F4F7FA; --cta-muted:#A7B4C0; --cta-line:rgba(255,255,255,.10);
+  --cta-acc:#FF8A4C; --cta-acc-ink:#FF8A4C; --cta-panel:rgba(255,255,255,.04); --cta-panel-shadow:transparent;
+  --cta-track:rgba(255,255,255,.08); --cta-bar:rgba(255,255,255,.34); --cta-btn:#FF8A4C; --cta-btn-ink:#15202B; --cta-btn-arr:#15202B; --cta-shadow:rgba(0,0,0,.30); color-scheme:dark;
 }
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
@@ -164,39 +170,42 @@ tr.hide{display:none}
 .n b{font-size:13.5px;line-height:1.3}
 .n .who{font-family:var(--f-mono);font-size:11px;color:var(--muted)}
 .n .do{font-size:12.5px;color:var(--muted);line-height:1.4}
-/* CTA «Экономика ИИ-департамента» перед схемой (редизайн 21.11.2026, без перечёркиваний).
-   Тёмная карточка-акцент: слева тезис «в 33 раза дешевле» и кнопка к схеме, справа
-   сравнение полосами. ФОТ людей — полная приглушённая полоса, затраты на ИИ — 3 %
-   (30 000 / 1 000 000) с оранжевым свечением: разницу показывает длина, а не зачёркивание.
-   Свои токены --cta-*: в светлой теме карточка тёмная (инверсия, чтобы выделялась на
-   светлом фоне), в тёмной — чуть приподнятая поверхность; акцент в обеих темах один —
-   светлый оранжевый, контраст текста кнопки (#15202B на #FF8A4C) ≈ 7.
+/* CTA «Экономика ИИ-департамента» перед схемой (21.11.2026: без перечёркиваний, светлая).
+   Карточка: слева тезис «в 33 раза дешевле» и кнопка к схеме, справа сравнение полосами.
+   ФОТ людей — полная серая полоса, затраты на ИИ — 3 % (30 000 / 1 000 000) с оранжевым
+   свечением: разницу показывает длина, а не зачёркивание.
+   Цвета — токены --cta-* в :root и тёмных блоках. Светлая тема: тёплый светлый фон
+   с персиковым и мятным свечением, белая панель, графитовая кнопка с белым текстом.
+   Тёмная тема: приподнятая тёмная поверхность и оранжевая кнопка с тёмным текстом.
+   Мелкий оранжевый текст (надпись сверху) берёт --cta-acc-ink — в светлой теме он
+   темнее акцента, чтобы читался (контраст ≈ 5).
    Сетка: на компьютере «тезис | сравнение» + кнопка под тезисом; до 760px всё в столбик,
    кнопка последней и на всю ширину. */
 .cta{position:relative;overflow:hidden;display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);
   grid-template-areas:"main cmp" "btn cmp";column-gap:clamp(24px,5vw,64px);row-gap:22px;align-items:center;
   padding:clamp(22px,4vw,44px);border-radius:24px;color:var(--cta-ink);border:1px solid var(--cta-line);
-  background:radial-gradient(120% 100% at 100% 0%,rgba(255,138,76,.24),transparent 55%),
-             radial-gradient(90% 90% at 0% 100%,rgba(61,203,149,.10),transparent 60%),var(--cta-bg);
-  box-shadow:0 20px 44px rgba(21,32,43,.20)}
+  background:radial-gradient(110% 110% at 100% 0%,rgba(255,138,76,.26),transparent 55%),
+             radial-gradient(90% 90% at 0% 100%,rgba(61,203,149,.14),transparent 60%),var(--cta-bg);
+  box-shadow:0 18px 44px var(--cta-shadow)}
 .cta-main{grid-area:main;display:grid;gap:12px;align-self:end}
-.cta-k{font-size:12px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:var(--cta-acc)}
+.cta-k{font-size:12px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:var(--cta-acc-ink)}
 .cta-h{margin:0;font-family:var(--f-display);font-weight:700;font-size:clamp(25px,3.5vw,40px);line-height:1.08;text-wrap:balance}
 .cta-h em{font-style:normal;color:var(--cta-acc)}
 .cta-s{margin:0;color:var(--cta-muted);font-size:15px;line-height:1.5;max-width:46ch}
 .cta-btn{grid-area:btn;justify-self:start;align-self:start;display:inline-flex;align-items:center;justify-content:center;gap:10px;
-  min-height:48px;padding:12px 24px;border-radius:999px;background:var(--cta-acc);color:#15202B;font-weight:700;font-size:15px;
-  text-decoration:none;box-shadow:0 8px 24px rgba(255,138,76,.35);transition:transform .15s,box-shadow .2s}
-.cta-btn:hover{transform:translateY(-2px);box-shadow:0 12px 30px rgba(255,138,76,.5)}
-.cta-btn:focus-visible{outline:2px solid var(--cta-ink);outline-offset:3px}
+  min-height:48px;padding:12px 24px;border-radius:999px;background:var(--cta-btn);color:var(--cta-btn-ink);font-weight:700;font-size:15px;
+  text-decoration:none;box-shadow:0 8px 22px rgba(232,89,12,.28);transition:transform .15s,box-shadow .2s}
+.cta-btn span{color:var(--cta-btn-arr)}
+.cta-btn:hover{transform:translateY(-2px);box-shadow:0 12px 30px rgba(232,89,12,.42)}
+.cta-btn:focus-visible{outline:2px solid var(--cta-acc);outline-offset:3px}
 .cta-cmp{grid-area:cmp;display:grid;gap:22px;padding:clamp(18px,2.5vw,26px);border-radius:18px;
-  background:rgba(255,255,255,.04);border:1px solid var(--cta-line)}
+  background:var(--cta-panel);border:1px solid var(--cta-line);box-shadow:0 8px 24px var(--cta-panel-shadow)}
 .cmp{display:grid;gap:10px}
 .cmp-top{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:4px 14px}
 .cmp-top span{font-size:13.5px;color:var(--cta-muted)}
 .cmp-top b{font-family:var(--f-display);font-weight:600;font-size:clamp(20px,2.6vw,28px);line-height:1.1;white-space:nowrap;font-variant-numeric:tabular-nums}
-.cmp-bar{height:12px;border-radius:999px;background:rgba(255,255,255,.08);overflow:hidden}
-.cmp-bar i{display:block;height:100%;border-radius:inherit;background:rgba(255,255,255,.34);transform-origin:left center;
+.cmp-bar{height:12px;border-radius:999px;background:var(--cta-track);overflow:hidden}
+.cmp-bar i{display:block;height:100%;border-radius:inherit;background:var(--cta-bar);transform-origin:left center;
   animation:cmpIn 1.2s cubic-bezier(.2,.7,.2,1) both}
 .cmp.ai b{color:var(--cta-acc)}
 .cmp.ai .cmp-bar{overflow:visible}
